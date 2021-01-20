@@ -1,0 +1,19 @@
+table#firmas{
+    font-size: $size-base - 4;
+    tr td{
+        padding: 20px 0 10px 0;
+    
+        &.linea{
+            border-bottom: $borde;
+        }
+        &.linea2{
+            border-top: $borde;
+        }
+        &.right{
+            @include derecha();
+        }
+        &.titulos{
+            font-weight: bold;
+        }
+    }
+}

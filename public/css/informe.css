@@ -1,0 +1,240 @@
+body { 
+    background-color: transparent;
+    color: black;
+    font-family: "Arial" ,"Verdana", "sans-serif";
+    margin: 0px;
+    padding-top: 0px;
+    box-sizing: border-box;
+}
+p{
+  margin: 0;
+}
+hr{
+  margin: 30px 0;
+}
+
+.page-break {
+  page-break-after: always;
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+  padding-right: 20px;
+}
+
+table{
+  width: 100%;
+  text-align: center;
+}
+
+table#header{
+  background: #EBEBEB;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+}
+table#header tr td h1{
+  font-size: 0.75em;
+  text-transform: uppercase;
+  padding: 0;
+  margin: 0;
+}
+table#header tr td p.fecha,
+table#header tr td p.usuario{
+  font-style: italic;
+  font-weight: normal;
+  font-size: 0.6em;
+}
+
+table.detalle,
+table.informacion, 
+table.componente, 
+table.informe, 
+table.caracteristicas,
+table.diagnostico, 
+table.trabajo, 
+table.recomendaciones,
+table.observacion, 
+table.informe2, 
+table.firmas,
+table.equipo,
+{
+  font-size: 9pt;
+  border-collapse: collapse;
+  border: none;
+  vertical-align: middle;
+  margin: 10px 0;
+  width: 100%;
+}
+table.detalle{
+    margin-top: 40px;
+}
+.caracteristicas-recepcion{
+  margin: 10px 0;
+  width: 100%;
+  font-size: 9pt;
+  vertical-align: middle;
+}
+.caracteristicas-recepcion table tr td{
+  text-align: left;
+  padding-left: 15px;
+}
+
+table tr td.titulos{
+  font-weight: bold;
+}
+
+table.informacion tr td,
+table.componente tr td,
+table.informe tr td,
+table.caracteristicas tr td,
+table.diagnostico tr td,
+table.trabajo tr td,
+table.recomendaciones tr td,
+table.observacion tr td,
+table.informe2 tr td,
+table.firmas tr td,
+table.equipo tr td,
+.caracteristicas-recepcion,
+{
+  text-align: left;
+  padding: 0 20px;
+  font-size: 8pt;
+}
+
+table.componente tr td{
+  padding-top: 25px;
+  margin: 0;
+  padding-bottom: 0;
+}
+
+table.informacion tr td.ticket{
+  font-size: 9pt;
+  text-align: center;
+  font-weight: bold;
+}
+table.informacion tr td.ticket span{
+  border: 1px solid black;	
+  display: block;
+  margin: 0 80px;
+}
+
+table.caracteristicas tr td.detalles,
+table.diagnostico tr td.detalles,
+table.trabajo tr td.detalles,
+table.recomendaciones tr td.detalles,
+table.observacion tr td.detalles,
+table.equipo tr td.detalles,
+{
+  border:1px solid black;
+  vertical-align: top;
+  text-align: left;
+  padding-left: 25px;
+  padding-top: 20px;
+}
+table.caracteristicas tr td.titulos,
+table.diagnostico tr td.titulos,
+table.trabajo tr td.titulos,
+table.recomendaciones tr td.titulos,
+table.observacion tr td.titulos,
+table.equipo tr td.titulos,
+.caracteristicas-recepcion h1.titulos,
+{
+  padding: 20px;
+  background-color: #EBEBEB;
+  border: 1px solid black;
+}
+.caracteristicas-recepcion h1.titulos{
+  font-size: 9pt;
+}
+.caracteristicas-recepcion .detalles table#tabla2{
+  page-break-before:always;
+}
+table.caracteristicas tr td.detalles{
+  height: 500px;
+/*	page-break-before:always;*/
+}
+
+table.diagnostico tr td.detalles{
+  height: 300px;
+}
+table.trabajo tr td.detalles{
+  height: 300px;
+}
+table.recomendaciones tr td.detalles{
+  height: 200px;
+}
+
+table.observacion tr td.detalles{
+  height: 150px;
+}
+
+table.firmas tr td{
+  text-align: center;
+  padding: 20px;
+}
+table.firmas tr td.linea{
+  border-bottom: 1px solid black;
+}
+table.firmas tr td.linea2{
+  border-top: 1px solid black;
+}
+table.firmas tr td.right{
+  text-align: right;
+}
+
+table.fecha{
+  font-size: 7pt;
+  font-style: italic;
+  margin-top: 25px;
+}
+
+table.codigo tr td p{
+  font-size: 0.5em;
+  font-weight: bold;
+  text-align: right;
+  padding-right: 20px;
+}
+
+.reporte{
+  width: 100%;
+}
+.reporte{
+  text-align: center;
+  margin: 0;
+}
+.reporte h1{
+  background-color: #EBEBEB;
+  font-size: 0.7em;
+  display: block;
+  padding: 10px;
+  margin: 0;
+  border: 1px solid black;
+}
+.reporte p.descripcion{
+  font-size: 0.7em;
+  text-align: left;
+}
+.fotos{
+  border: 1px solid black;
+  width: 50%;
+  padding: 20px;
+  /*float: left;*/
+  text-align: center;
+  margin: 0 auto;
+}
+.fotos img{
+  width: 100%;
+}
+.figura{
+  text-align: center;
+  font-size: 0.6em;
+  font-style: italic;
+  margin-top: 0;
+}

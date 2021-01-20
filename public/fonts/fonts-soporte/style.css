@@ -1,0 +1,89 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?3qfvbg');
+  src:  url('fonts/icomoon.eot?3qfvbg#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?3qfvbg') format('truetype'),
+    url('fonts/icomoon.woff?3qfvbg') format('woff'),
+    url('fonts/icomoon.svg?3qfvbg#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-camara-fotografica:before {
+  content: "\e900";
+}
+.icon-camaras-seguridad:before {
+  content: "\e901";
+}
+.icon-computadora-escritorio:before {
+  content: "\e902";
+}
+.icon-cpu:before {
+  content: "\e903";
+}
+.icon-ecran:before {
+  content: "\e904";
+}
+.icon-electronica:before {
+  content: "\e905";
+}
+.icon-equipo-sonido:before {
+  content: "\e906";
+}
+.icon-estabilizador:before {
+  content: "\e907";
+}
+.icon-fotocopiadora:before {
+  content: "\e908";
+}
+.icon-grabadora-portatil:before {
+  content: "\e909";
+}
+.icon-impresora:before {
+  content: "\e90a";
+}
+.icon-mouse:before {
+  content: "\e90b";
+}
+.icon-plotter:before {
+  content: "\e90c";
+}
+.icon-portatil:before {
+  content: "\e90d";
+}
+.icon-redes:before {
+  content: "\e90e";
+}
+.icon-software:before {
+  content: "\e90f";
+}
+.icon-teclado:before {
+  content: "\e910";
+}
+.icon-telefono-inalambrico:before {
+  content: "\e911";
+}
+.icon-televisor:before {
+  content: "\e912";
+}
+.icon-toner:before {
+  content: "\e913";
+}
+.icon-ups:before {
+  content: "\e914";
+}

@@ -1,0 +1,15 @@
+body{
+    margin:0;
+    padding: 0;
+    font-family: $font-base;
+}
+p{
+    margin:0;
+}
+.page-break{
+    page-break-after: always;
+}
+
+hr{
+    margin:30px 0;
+}

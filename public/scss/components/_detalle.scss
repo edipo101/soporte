@@ -1,0 +1,56 @@
+/*
+* Detalles del informe
+*/
+table#detalle{
+    margin: 40px 0;
+    tr td{
+        font-weight: bold;
+        font-size: $size-base - 2;
+    }
+}
+
+table#informacion{
+    tr td{
+        @include izquierda;
+        font-size: $size-base - 4;
+        &.titulos{
+            font-weight: bold;
+        }
+        &.ticket{
+            font-size: $size-base - 3;
+            @include centrar;
+            font-weight: bold;
+            span{
+                border: $borde;	
+                display: block;
+                margin: 0 80px;
+                font-size: 15pt;
+                padding: 30px;
+            }
+        }
+    }
+}
+table#informe{
+    tr td{
+        @include izquierda;
+        font-size: $size-base - 4;
+    }
+}
+
+table#componente, table#recepcion{
+    tr td{
+        @include izquierda;
+        font-size: $size-base - 4;
+        &.titulos{
+            font-weight: bold;
+        }
+    }
+}
+
+table#aclaracion{
+    tr td{
+        @include izquierda;
+        font-size: $size-base - 4;
+        padding-top:40px;
+    }
+}

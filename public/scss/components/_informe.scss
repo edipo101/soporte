@@ -1,0 +1,89 @@
+table#caracteristicas, table#diagnostico, table#trabajo, table#recomendaciones, table#observaciones, table#equipo{
+    tr td{
+        padding: 20px;
+        @include izquierda;
+        font-size: $size-base - 4;
+        &.titulos{
+            font-weight: bold;
+            background-color: $fondo;
+            border:$borde;
+        }
+        &.detalles{
+            border:$borde;
+            vertical-align: top;
+            height:300px;
+        }
+    }
+}
+
+table#caracteristicas tr td.detalles{
+    height: 500px;
+}
+
+table#observacion tr td.detalles{
+    height: 150px;
+}
+table#recomendaciones tr td.detalles, table#observaciones tr td.detalles{
+    height: 200px;
+}
+table#equipo tr td.detalles{
+    height: 700px;
+}
+table#equipo tr td{
+    width: 50%;
+}
+
+#caracteristicas-recepcion{
+    margin: 10px;
+	width: 100%;
+	font-size: $size-base - 5;
+    vertical-align: middle;
+    h1.titulos{
+        padding: 20px;
+        font-size: $size-base - 4;
+        background-color: $fondo;
+        border: $borde;
+    }
+    table{
+        width: 100%;
+        border-collapse: collapse;
+        tr td{
+            text-align: left;
+            padding-left:20px;
+            padding-right: 30px;
+            font-size: $size-base - 4;
+            line-height: 1.2;
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+    }
+}
+.reporte{
+	width: 100%;
+	text-align: center;
+    margin: 0;
+    h1{
+        background-color: #EBEBEB;
+        font-size: 0.7em;
+        display: block;
+        padding: 10px;
+        margin: 0;
+        border: 1px solid black;
+    }
+}
+
+.fotos2{
+	border: 1px solid black;
+	width: 50%;
+	margin:20px auto;
+}
+.fotos2 img,
+.fotos3 img{
+	width: 100%;
+}
+
+.fotos3{
+	border: 1px solid black;
+	width: 35%;
+	margin:20px auto;
+}

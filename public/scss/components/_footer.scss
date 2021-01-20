@@ -1,0 +1,19 @@
+table#codigo{
+    tr td{
+        @include derecha;
+        img{
+            margin-top:5px;
+        }
+        p{
+            font-size: $size-base - 5;
+            font-weight: bold;
+        }
+    }
+}
+table#fecha{
+    tr td{
+        @include derecha;
+        font-size: $size-base - 5;
+        font-style: italic;
+    }
+}

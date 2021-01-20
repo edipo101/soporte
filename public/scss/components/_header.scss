@@ -1,0 +1,24 @@
+/*
+* Header
+*/
+table#header{
+    background-color: $fondo;
+    border:$borde;
+    @include redondear(10px);
+    font-weight: bold;
+    tr td{
+        padding: 5px;
+        h1{
+            font-size:$size-base - 2;
+            @include mayuscula;
+            padding: 0;
+            margin: 0;
+        }
+        p{
+            font-style: italic;
+            font-weight: normal;
+            font-size: $size-base - 5;
+        }
+    }
+
+}

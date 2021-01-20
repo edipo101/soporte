@@ -1,0 +1,140 @@
+.cke_textarea_inline{
+    border:1px solid #ccc;
+    padding: 1rem;
+    min-height: 100px;
+}
+.typeahead{
+	min-width: 95%;
+}
+.equipo{
+    min-height: 300px;
+}
+
+.btn-users {
+    border-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    position: relative;
+    padding: 15px 5px;
+    margin: 0 0 10px 10px;
+    margin-left: 10px;
+    min-width: 80px;
+    height: 125px;
+    text-align: center;
+    color: #666;
+    border: 1px solid #ddd;
+    border-top-color: rgb(221, 221, 221);
+    border-right-color: rgb(221, 221, 221);
+    border-bottom-color: rgb(221, 221, 221);
+    border-left-color: rgb(221, 221, 221);
+    background-color: #f4f4f4;
+    font-size: 12px;
+}
+
+.btn-users > img{
+	display: block;
+	width: 75px;
+	margin:0 auto;
+	border-radius: 50%;
+}
+.btn-users > h4{
+	position: absolute;
+	top: 5px;
+	right: 5px;
+}
+
+.btn-users > h4 > span{
+	border-radius: 50%;
+}
+
+.btn-users:hover > span.users-list-name,
+.active > span.users-list-name
+{
+	color: white;
+}
+
+.register-box-ticket {
+  width: 1000px;
+  margin: 7% auto;
+}
+@media (max-width: 768px) {
+  .register-box-ticket {
+    width: 90%;
+    margin-top: 20px;
+  }
+}
+
+.btn-tickets{
+    min-width: 125px;
+    height: 125px;
+    margin-right: 15px;
+    margin-left: 15px;
+}
+.btn-tickets > .fa{
+    font-size: 3em;
+    display: block;
+}
+.btn-tickets > h3{
+    font-weight: bold;
+}
+
+.enlinea{
+    display: inline-block;
+    padding-right: 50px;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    white-space: normal;
+}
+div.dataTables_wrapper div.dataTables_filter input {
+    width: 250px;
+}
+@media screen and (max-width: 768px){
+    div.dataTables_wrapper div.dataTables_filter input {
+        width: auto;
+    }
+}
+
+.mailbox-attachment-icon.has-img {
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    max-height: 150px;
+    min-height: 150px;
+}
+.mailbox-attachment-icon.has-img > img {
+    max-width: 100%;
+    height: auto;
+}
+
+.componentes{
+    display: flex;
+    width: 980px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: space-between;
+}
+.radio-boton{
+    display: none;
+}
+.radio-boton + label.item{
+    background-color: #ececec;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 2px;
+    border: 1px solid #ddd;
+    text-align: center;
+    vertical-align: middle;
+    color: #000;
+    font-size:14px;
+    font-weight: 700; 
+    width: 125px;
+}
+.radio-boton:checked + label.item{
+    background-color:#2294ff;
+    color: #fff;
+}
+label.item > span.icon{
+    display: block;
+    font-size: 2em;
+}
