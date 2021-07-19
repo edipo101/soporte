@@ -259,11 +259,11 @@ class TicketController extends Controller
         $pdf = App::make('dompdf.wrapper');
         $pdf->setPaper('letter');        
         
-        $pdf->loadView('invitado.imprimir.imprimir-ticket',compact('ticket'));
-        return $pdf->stream($ticket->id.'.pdf',array("Attachment"=>false));
+        $pdf->loadView('invitado.imprimir.imprimir-ticket2',compact('ticket'));
+        // return $pdf->stream($ticket->id.'.pdf',array("Attachment"=>false));
 
-        //$pdf->loadView('tickets.imprimir.volante',compact('ticket'));
-        //return $pdf->stream($ticket->id.'-'.$ticket->gestion.'.pdf');
+        // $pdf->loadView('tickets.imprimir.volante',compact('ticket'));
+        return $pdf->stream($ticket->id.'-'.$ticket->gestion.'.pdf');
     }
 
     /**
