@@ -180,11 +180,11 @@
 					<p>1. La Jefatura de Tecnologías de la Información no se hace responsable del equipo o dispositivo dejado una vez pasado los días aproximados para su revisión</p>
 				</div>
 			</div>
-			<div class="box_qr">
+			{{-- <div class="box_qr">
 				<img lass="box_imgqr" src="data:image/png;base64, {!! base64_encode( QrCode::format('png')->color(0,0,0)->size(302)->margin(1)->mergeString( Storage::get('public/img/box21.png') , 0.26 )->generate( 'Ticket: '. $ticket->nro_ticket .PHP_EOL.' Fecha de recepción: ' . $ticket->created_at->format('d/m/Y H:i:s')) ) !!} ">
 				<div style="color: #fff; margin-top:0;">TICKET</div>
 				<div class="box_qrnum">{{ $ticket->nro_ticket }}</div>
-			</div>
+			</div> --}}
 		</div>
 		
 	</div>	
