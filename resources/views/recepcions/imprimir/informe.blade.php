@@ -73,7 +73,7 @@
 		<table id="codigo">
 			<tr>
 				<td>
-					<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->margin(0)->mergeString( Storage::get('public/img/box21.png') , 0.3 )->generate($recepcion->funcionario->nombre.' '.$recepcion->funcionario->apellidos.' | '.$recepcion->funcionario->carnet.''.$recepcion->funcionario->exp.' | '.$recepcion->funcionario->cargo.' | Fecha Solicitud:'.$recepcion->fecha_solicitud)) }} ">
+					<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->margin(0)->generate($recepcion->funcionario->nombre.' '.$recepcion->funcionario->apellidos.' | '.$recepcion->funcionario->carnet.''.$recepcion->funcionario->exp.' | '.$recepcion->funcionario->cargo.' | Fecha Solicitud:'.$recepcion->fecha_solicitud)) }} ">
 					<p>Código de Verificación</p>
 				</td>
 			</tr>
@@ -145,7 +145,7 @@
 		<table id="codigo">
 			<tr>
 				<td>
-					<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->margin(0)->mergeString( Storage::get('public/img/box21.png') , 0.3 )->generate($recepcion->funcionario->nombre.' '.$recepcion->funcionario->apellidos.' | '.$recepcion->funcionario->carnet.''.$recepcion->funcionario->exp.' | '.$recepcion->funcionario->cargo.' | Fecha Solicitud:'.$recepcion->fecha_solicitud)) }} ">
+					<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->margin(0)->generate($recepcion->funcionario->nombre.' '.$recepcion->funcionario->apellidos.' | '.$recepcion->funcionario->carnet.''.$recepcion->funcionario->exp.' | '.$recepcion->funcionario->cargo.' | Fecha Solicitud:'.$recepcion->fecha_solicitud)) }} ">
 					<p>Código de Verificación</p>
 				</td>
 			</tr>
@@ -309,10 +309,11 @@
 		</tr>
 	</table>
 
-	<table id="codigo" style="margin:30px 0 0 0;">
+	<table id="codigo" style="margin:75px 0 0 0;">
 		<tr>
 			<td>
-				<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->margin(0)->mergeString( Storage::get('public/img/box21.png') , 0.3 )->generate($recepcion->autentificacion_recepcion)) }} ">
+				{{-- <img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->margin(0)->mergeString( Storage::get('public/img/box21.png') , 0.3 )->generate($recepcion->autentificacion_recepcion)) }} "> --}}
+				<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->margin(0)->generate($recepcion->autentificacion_recepcion)) }} ">
 				<p>Código de Verificación</p>
 			</td>
 		</tr>
@@ -347,7 +348,7 @@
 	 <table id="codigo">
 		<tr>
 			<td>
-				<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->margin(0)->mergeString( Storage::get('public/img/box21.png') , 0.3 )->generate($recepcion->autentificacion_recepcion)) }} ">
+				<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->margin(0)->generate($recepcion->autentificacion_recepcion)) }} ">
 				<p>Código de Verificación</p>
 			</td>
 		</tr>
