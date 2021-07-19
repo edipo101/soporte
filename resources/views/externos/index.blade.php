@@ -28,6 +28,23 @@
             @endcan
 	  	</div>
 	</div>
+        
+    {!! Form::open(['route' => ['externos.index', $gestion] , 'class'=>'form-inline', 'id'=>'fexternos', 'method' => 'GET' ]) !!}
+    <div class="row">
+        <div class="col-md-5">
+            <div class="form-group">
+                {{ Form::label('gestion', 'Gestión :&nbsp;&nbsp;') }}
+                {{ Form::select('gestion', array('2021' => '2021', '2020' => '2020','2019' => '2019','2018' => '2018'), $gestion,['class'=> 'form-control', 'id'=>'gestion']) }}
+            </div>
+        </div> 
+        <div class="col-md-6">
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
+            </div>
+        </div>
+    </div>
+    {!! Form::close() !!}
+
 	<div class="box-body">
         <table id="externos" class="table table-bordered table-striped table-hover">
             <thead>
@@ -61,7 +78,7 @@
         },
     	processing: true,
         serverSide: true,
-        ajax: '{!! route('externos.apiExternos') !!}',
+        ajax: '{!! route('externos.apiExternos', $gestion ) !!}',
         columns: [
             { data: 'numero_index', orderable:false, searchable:false },
             { data: 'fecha_elaboracion' },

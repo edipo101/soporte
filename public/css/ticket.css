@@ -1,0 +1,147 @@
+body { 
+    background-color: transparent;
+    color: black;
+    font-family: "verdana", "sans-serif";
+    margin: 0px;
+    padding-top: 0px;
+    font-size: 1em;
+  }
+
+table#header{
+	width: 100%;
+	background: #FFFFFF;	
+	border: 1px solid black;
+}
+
+table#header tr td h1{	
+    font-size: 0.8em;
+	  text-align: center;
+	  padding: 0;
+	  margin: 0;
+	  text-transform: uppercase;
+}
+
+#table_parent{
+  margin: 10px 0;
+  width: 100%;
+	background: #FFFFFF;	
+	border: 1px solid black;
+}
+
+#table_parent tr td h1{	
+  font-size: 1em;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.center {
+    text-align: center;
+  }
+
+  
+
+.text_mini{
+  text-align: left;
+  font-size: 0.6em;
+  margin-left: 16px;  
+}  
+
+.text_reg{
+  font-size: 0.8em;
+  text-align: center;
+  margin: 10px 0;
+  text-transform: uppercase;
+}
+
+.box_title{
+  background-color: black; 
+  color:#ffffff;
+  text-align: center;
+  font-size: 0.8em;
+}
+
+.box_complete{
+  border: 1px solid black;
+}
+
+.box_date{
+  text-align: center;
+  background-color: #C1C1C1;  
+}
+
+.ditem{
+  font-size: 0.6em;
+}
+
+.dnum{
+  font-size: 0.8em;
+}
+
+table.firmas{
+	width: 100%;
+	border: 1px solid black;
+	font-size: 8pt;
+	border-collapse: collapse;
+	margin-top: 5px;
+	text-align: center;
+}
+table.firmas tr td{
+	border: 1px solid black;
+}
+table.firmas tr td.sellos{
+	padding: 50px 10px;
+}
+
+
+
+.box_borderLB{
+  border-left: 1px solid #000000;
+  border-bottom: 1px solid #000000;
+}
+.box_borderL{
+  border-left: 1px solid #000000;  
+}
+.box_borderRB{
+  border-right: 1px solid #000000;
+  border-bottom: 1px solid #000000;
+}
+
+.box_borderB{  
+  border-bottom: 1px solid #000000;
+}
+
+
+.box_qr{
+  float: right;
+  width: 360px; 
+  height: 400px;  
+  border: 1px solid #000000; 
+  background-color: #000000;  
+  margin: 20px 0;
+  padding-top: 90px;
+  padding-bottom: 50px;
+  /*
+  position: absolute;
+  right: 10; 
+  top: 10;
+  z-index: 10; */
+  text-align: center;
+  -webkit-border-radius: 10px;
+-moz-border-radius: 10px;
+border-radius: 10px;
+}
+
+.box_imgqr{
+  margin: 0;    
+}
+
+.box_qrnum{
+  background-color: #ffffff;  
+  margin: 0 10px;
+  text-align: center;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+}

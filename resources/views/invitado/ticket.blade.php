@@ -1,14 +1,14 @@
 @extends('layouts.auth')
 
 @section('title')
-    GENERACION DE TICKET'S - SOPORTE TECNICO
+GENERACION DE TICKET&apos;S
 @endsection
 
 @section('content')
 <body class="hold-transition login-page">
   <div class="login-box">
       <div class="login-logo">
-        <img src="{{ asset('/img/logo.jpg') }}" class="img-responsive center-block" width="50px">
+        <img src="{{ asset('/img/logo.png') }}" class="img-responsive center-block" width="50px">
         SOPORTE TECNICO
       </div><!-- /.login-logo -->
     <div class="login-box-body">
@@ -29,6 +29,13 @@
       <span class="text-center help-block" style="font-size: 0.75em">Gobierno Autonomo  Municipal de Sucre - <strong>{{Carbon\Carbon::now()->year}}</strong></span>
     </div>
   </div><!-- /.login-box -->
+
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <a href="{{ url('/login') }}" class="btn btn-link">VOLVER A LA PAGINA PRINCIPAL</a>
+    </div>
+  </div>
+
   @include('invitado.imprimir.imprimir-modal')
   @include('layouts.partials.scripts-auth')
   <script src="{{ asset('js/script.js') }}"></script>

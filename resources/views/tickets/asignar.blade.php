@@ -29,7 +29,11 @@
           <div class="row">
             <div class="col-md-6">
               <strong><i class="fa fa-tag"></i> NRO. DE TICKET</strong>
-              <p class="text-center">{{ $ticket->nro_ticket }}/{{ $ticket->gestion }}</p>
+              <p class="text-center" >
+                <span style="font-weight: bold;">
+                  {{ $ticket->nro_ticket }}/{{ $ticket->gestion }}
+                </span>                
+              </p>
               <hr>
             </div>
             <div class="col-md-6">
@@ -70,12 +74,12 @@
               <hr>
             </div>
             <div class="col-md-12">
-              <strong><i class="fa fa-wrench"></i> DIAGNOSTICO Y/O SERVICIOS</strong>
-              <p class="text-center">
+              <strong><i class="fa fa-wrench"></i> DIAGNOSTICO Y/O SERVICIOS</strong>              
                 @foreach($ticket->diagnosticos as $diagnostico)
+                <div>
                 <button type="button" class="btn btn-flat btn-primary" data-toggle="popover" title="{{ $diagnostico->nombre }}" data-content="{{ $diagnostico->descripcion }}" data-placement="bottom">{{ $diagnostico->nombre }}</button>
-                @endforeach
-              </p>
+                </div>
+                @endforeach              
             </div>
           </div>
       </div>
@@ -85,7 +89,7 @@
   <div class="col-md-7">
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title"><i class="fa fa-mail-forward"></i> ASIGNACION DEL TICKET</h3>
+        <h3 class="box-title"><i class="fa fa-mail-forward"></i> ASIGNACION DE TICKET</h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
                 <i class="fa fa-minus"></i>
@@ -108,21 +112,26 @@
                 {{ Form::text('fecha_entrega',$fechasugerida,['class'=> 'form-control pull-rigth date']) }}
               </div>
             </div>
-            <h4 class="lead"><i class="fa fa-user-secret"></i> PERSONAL DE SOPORTE</h4>
-            @if(auth()->user()->isRole('encargado')||auth()->user()->isRole('admin')) 
+            <h4 class="lead"><i class="fa fa-user-secret"></i> PERSONAL DISPONIBLE</h4>
+            
+            @if( auth()->user()->isRole('encargado') || auth()->user()->isRole('admin') ) 
             <div class="text-center">
               <div class="users-list clearfix btn-group" data-toggle="buttons">
-                @foreach($soporte as $sp)
-                    <div class="btn btn-users btn-primary">
-                      {{ Form::radio('tecnico_id',$sp->tecnico->id) }}
-                      <img src="{{ asset('img/users/'.$sp->tecnico->foto) }}" alt="User Image">
+                @foreach($soporte as $sp)                                
+                  @if( tiene_acceso($sp) )
+                    <div class="btn btn-users btn-primary">                      
+                      {{ Form::radio('tecnico_id',$sp->tecnico->id, false,['required' => 'required']) }}
+                      <img src="{{ asset('img/users/'.$sp->tecnico->foto) }}" alt="U">
                       <span class="users-list-name">{{ $sp->tecnico->nombre }}</span> 
-                      <h4><span class="label label-success">{{ $sp->tickets->where('estado','A')->count() }}</span></h4>
+                      <span class="users-list-name"><small>{{ getAllRole($sp) }}</small></span> 
+                      <h4><span class="label label-success">{{ $sp->tickets->where('estado','A')->count() }}</span></h4>                                  
                     </div>
+                  @endif            
                 @endforeach
               </div> 
             </div>
             @endif
+
             <div class="form-group text-center">
               {{ Form::submit('ASIGNAR', ['class'=>'btn btn-flat btn-success']) }}
               <a href="{{ route('tickets.index','recepcionados') }}" class="btn btn-flat btn-danger">CANCELAR</a>

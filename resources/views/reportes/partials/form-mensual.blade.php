@@ -20,13 +20,14 @@
     {{ Form::label('tipo','Tipo de Informe') }}
     {{ Form::select('tipo',$tipos,null,['class'=>'form-control','id'=>'tipomes','placeholder'=>'Seleccione un tipo de Informe']) }}
 </div>
-<div class="form-group">
-    {{ Form::label('usuario','Tecnico') }}
-    @if(auth()->user()->isRole('admin') || auth()->user()->isRole('encargado'))
-    {{ Form::select('usuario',$usuarios,null,['class'=>'form-control','id'=>'usuariomes', 'placeholder'=>'Seleccione un Tecnico']) }}
+<div class="form-group">    
+    @if( auth()->user()->isRole('admin') || auth()->user()->isRole('encargado') )
+        {{ Form::label('usuario','Usuarios') }}
+        {{ Form::select('usuario',$usuarios,null,['class'=>'form-control','id'=>'usuariomes', 'placeholder'=>'Seleccione un Tecnico']) }}
     @else
-    {{ Form::text('usuarionombre',Auth::user()->tecnico->fullnombre,['class'=>'form-control','readonly'=>'readonly']) }}
-    {{ Form::hidden('usuario',Auth::id(),['class'=>'form-control','id'=>'usuariomes']) }}
+        {{ Form::label('usuario','Usuario') }}
+        {{ Form::text('usuarionombre',Auth::user()->tecnico->fullnombre,['class'=>'form-control','readonly'=>'readonly']) }}
+        {{ Form::hidden('usuario',Auth::id(),['class'=>'form-control','id'=>'usuariomes']) }}
     @endif
 </div>
 

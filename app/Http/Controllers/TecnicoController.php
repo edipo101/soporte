@@ -57,8 +57,8 @@ class TecnicoController extends Controller
     public function store(TecnicoStoreRequest $request)
     {
         //Crear y guadar los datos del Tecnico
-        $tecnico = new Tecnico();
-        $tecnico->fill($request->all());
+        $tecnico = new Tecnico();        
+        $tecnico->fill($request->all());        
         // Verifica si se agrego la fotografia si no por defecto carga default.jpg
         if(empty($request->fotografia)){
             $tecnico->foto = 'default.jpg';
@@ -74,16 +74,20 @@ class TecnicoController extends Controller
             // borrar del temporal
             unlink($old);
             $tecnico->foto = str_slug($request->nombre).".".$ext[1]; 
-        }
-        $tecnico->save();
+        }        
+        
+        $tecnico->save();        
         // Crea, guarda el usuario y asigna el usuario al tecnico
         $user = new User();
+        //dd($tecnico, $user);
         $user->fill([
             'tecnico_id' => $tecnico->id,
             'nickname'=>$request->nickname,
             'password'=> $request->password,
         ]);
+        
         $user->save();
+        
         //Sincroniza los roles asignados al usuario
         $user->syncRoles($request->roles);
 

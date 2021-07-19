@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Componente extends Model
 {
     protected $fillable = [
-        'nombre','icono'
+        'nombre','icono','visible','descripcion'
     ];
 
     public function setNombreAttribute($value){

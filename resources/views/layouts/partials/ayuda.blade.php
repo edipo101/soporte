@@ -10,30 +10,14 @@
     <div class="tab-pane active" id="control-sidebar-home-tab">
       <h3 class="control-sidebar-heading">Modulos del Sistema</h3>
         <div class="form-group">
+          
           <label class="control-sidebar-subheading">
             PERSONAL
           </label>
           <p>
             Registro de todo el personal de la institucion para su respectiva credencial
-          </p>
-          <label class="control-sidebar-subheading">
-            CREDENCIALES
-          </label>
-          <p>
-            Impresion de credenciales de un personal en formato PVC o normal
-          </p>
-          <label class="control-sidebar-subheading">
-            REPORTES E INFORMES
-          </label>
-          <p>
-            Consultas de reportes e informes del sistema
-          </p>
-          <label class="control-sidebar-subheading">
-            USUARIOS
-          </label>
-          <p>
-            Gestion de Usuarios
-          </p>
+          </p>        
+          
         </div>
     </div>
     <!-- /.tab-pane -->

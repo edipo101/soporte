@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="{{ asset('plugins/sweetalert2/sweetalert2.css') }}">
 
 <!-- Estilos personalizados -->
+<link rel="shortcut icon" href="{{ asset('img/logo_castor.png') }}">
 <link href="{{ asset('/css/style.css') }}" rel="stylesheet">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

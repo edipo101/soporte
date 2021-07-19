@@ -196,6 +196,68 @@
 		</tr>
 	</table>
     @endif
+
+	<table class="detalle">
+		<tr>
+			<td class="center">
+				<strong>INFORMES TECNICOS EXTERNOS</strong>
+			</td>
+		</tr>
+	</table>
+	@if($informes_externo->count() > 0)
+	<table class="detalle">
+		<tr class="detalle_titulos">
+			<th>Nombre</th>
+			<th>Unidad</th>			
+			<th>Fecha de Elaboración</th>
+			<th>Fecha de Entrega</th>				
+		</tr>
+		@foreach($informes_externo as $externo)
+		<tr>			
+			<td>{{ $externo->nombre }}</td>
+			<td>{{ $externo->unidad->nombre }}</td>
+			<td>{{ $externo->fecha_elaboracion->format('d/m/Y') }}</td>
+			<td>{{ $externo->fecha_entrega->format('d/m/Y') }}</td>					
+		</tr>
+		@endforeach
+	</table>
+	@else
+	<table class="detalle">
+		<tr class="detalle_titulos">
+			<td class="center">
+				<br>
+				<strong>NO REALIZO NINGUN INFORME EXTERNO</strong>
+				<br> <br>
+			</td>
+		</tr>
+	</table>
+    @endif
+
+	@elseif($tipo=='externos')
+	<table class="detalle">
+		<tr>
+			<td class="center">
+				<strong>INFORMES TECNICOS EXTERNOS</strong>
+			</td>
+		</tr>
+	</table>	
+	<table class="detalle">
+		<tr class="detalle_titulos">
+			<th>Nombre</th>
+			<th>Unidad</th>			
+			<th>Fecha de Elaboración</th>
+			<th>Fecha de Entrega</th>				
+		</tr>
+		@foreach($informes as $externo)
+		<tr>			
+			<td>{{ $externo->nombre }}</td>
+			<td>{{ $externo->unidad->nombre }}</td>
+			<td>{{ $externo->fecha_elaboracion->format('d/m/Y') }}</td>
+			<td>{{ $externo->fecha_entrega->format('d/m/Y') }}</td>					
+		</tr>
+		@endforeach
+	</table>
+	
     @else
     <table class="detalle">
 		<tr class="detalle_titulos">
@@ -223,10 +285,10 @@
 
 	<table width="100%" class="fecha">
 		<tr>
-			<td colspan="5" class="right">Fecha impresa: {{Carbon\Carbon::now()->format('d/m/Y g:i:s a')}}</td>
+			<td colspan="5" class="right">Fecha de impresión: {{Carbon\Carbon::now()->format('d/m/Y g:i:s a')}}</td>
 		</tr>
 		<tr>
-			<td colspan="5" class="right">Sistema realizado por la <strong>Jefatura de Tecnologías de la Información</strong> - Área de Desarrollo de Sistemas</td>
+			<td colspan="5" class="right">Sistema desarrollado por la <strong>Jefatura de Tecnologías de la Información</strong></td>
 		</tr>
 	</table>
 	<br>

@@ -22,16 +22,36 @@ use Yajra\DataTables\DataTables;
 class BajaController extends Controller
 {
     
-    public function apiBajas()
+    public function apiBajas($gestion)
     {
-        if(auth()->user()->isRole('admin'))
-            $bajas = Baja::with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')->get();
-        elseif(auth()->user()->isRole('encargado'))
-            $bajas = Baja::with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')->where('gestion',Carbon::now()->year)->get();
-        elseif(auth()->user()->isRole('cambio-fecha'))
-            $bajas = Baja::with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')->where('gestion',Carbon::now()->year)->get();
-        else
-            $bajas = Baja::where('user_id',auth()->id())->with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')->where('gestion',Carbon::now()->year)->get();
+        if(auth()->user()->isRole('admin')){
+            $bajas = Baja::with('ticket')->with('ticket.unidad')
+            ->with('ticket.componente')->with('ticket.user')->get();
+        }            
+        elseif(auth()->user()->isRole('encargado')){
+            $slug = slugTipoEncargado(auth()->user());
+            $bajas = Baja::
+            whereHas('ticket.user.roles',function($query) use($slug){
+                $query->where('slug', $slug );
+            })
+            ->with('ticket')
+            ->with('ticket.unidad')
+            ->with('ticket.componente')
+            ->with('ticket.user')
+            ->where('gestion', $gestion )
+            ->get();
+        }            
+        elseif(auth()->user()->isRole('cambio-fecha')){
+            $bajas = Baja::with('ticket')->with('ticket.unidad')
+            ->with('ticket.componente')->with('ticket.user')
+            ->where('gestion', $gestion )->get();
+        }            
+        else{
+            $bajas = Baja::where('user_id',auth()->id())
+            ->with('ticket')->with('ticket.unidad')
+            ->with('ticket.componente')->with('ticket.user')
+            ->where('gestion', $gestion )->get();
+        }            
         return Datatables::of($bajas)
                             ->addIndexColumn()
                             ->editColumn('ticket.nro_ticket', function($baja){
@@ -44,7 +64,7 @@ class BajaController extends Controller
                                 return $baja->ticket->fecha_asignada->format('d/m/Y');
                             })
                             ->editColumn('ticket.solicitante', function($baja){
-                                return $baja->ticket->solicitante.'<br><strong>'.$baja->ticket->unidad->nombre.'</strong>';
+                                return $baja->ticket->solicitante.'<br><strong>'.$baja->ticket->unidad->nombre.'</strong><br><small>Cel. Ref: '.$baja->ticket->celular_referencia.'</small>';
                             })
                             ->editColumn('ticket.user.nickname', function($baja){
                                 return '<span class="label label-success">'.$baja->user->nickname.'</span>';
@@ -54,9 +74,10 @@ class BajaController extends Controller
                             ->toJson();
     }
     
-    public function index()
+    public function index(Request $request)
     {
-        return view('bajas.index');
+        $gestion = ($request->gestion!=null)?$request->gestion:2021;
+        return view('bajas.index', compact('gestion'));
     }
 
     public function create()

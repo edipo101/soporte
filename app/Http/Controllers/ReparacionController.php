@@ -22,18 +22,72 @@ use Yajra\DataTables\DataTables;
 class ReparacionController extends Controller
 {
     
-    public function apiReparacions()
+    public function apiReparacions($gestion)
     {
-        if(auth()->user()->isRole('admin'))
-            $reparacions = Reparacion::with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')->get();
-        elseif(auth()->user()->isRole('encargado'))
-            $reparacions = Reparacion::with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')->where('gestion',Carbon::now()->year)->get();
-        elseif(auth()->user()->isRole('cambio-fecha'))
-            $reparacions = Reparacion::with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')->where('gestion',Carbon::now()->year)->get();
-        else
-            $reparacions = Reparacion::where('user_id',auth()->id())->where('gestion',Carbon::now()->year)->with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')->get();
+        if(auth()->user()->isRole('admin')){
+            $reparacions = Reparacion::with('ticket')
+            ->with('ticket.unidad')
+            ->with('ticket.componente')
+            ->with('ticket.user')
+            ->where('gestion', $gestion)
+            ->get();
+        }            
+        elseif(auth()->user()->isRole('encargado')){
+            $slug = slugTipoEncargado(auth()->user());
+            //$reparacions = Reparacion::query();
+            $reparacions = Reparacion::whereHas('ticket.user.roles',function($query) use($slug){
+                $query->where('slug', $slug );
+            })
+            ->with('ticket')
+            ->with('ticket.unidad')
+            ->with('ticket.componente')
+            ->with('ticket.user')
+            ->where('gestion', $gestion)
+            //->orderBy('reparacions.id','desc');
+            ->get();            
+        }            
+        elseif(auth()->user()->isRole('cambio-fecha')){
+            $reparacions = Reparacion::with('ticket')
+            ->with('ticket.unidad')
+            ->with('ticket.componente')
+            ->with('ticket.user')
+            ->where('gestion', $gestion)
+            ->get();
+        }            
+        else{
+            $reparacions = Reparacion::where('user_id',auth()->id())
+            ->where('gestion', $gestion)
+            ->with('ticket')
+            ->with('ticket.unidad')
+            ->with('ticket.componente')
+            ->with('ticket.user')
+            ->get();
+        }            
+        
         return Datatables::of($reparacions)
                             ->addIndexColumn()
+                            ->editColumn('ticket.nro_ticket', function($reparacion){
+                                return $reparacion->ticket->fullticket;
+                            })
+                            ->editColumn('fecha_informe', function($reparacion){
+                                return $reparacion->fecha_informe->format('d/m/Y');
+                            })
+                            ->editColumn('ticket.fecha_asignada', function($reparacion){
+                                return $reparacion->ticket->fecha_asignada->format('d/m/Y');
+                            })
+                            ->editColumn('ticket.solicitante', function($reparacion){
+                                return $reparacion->ticket->solicitante.'<br><strong>'.$reparacion->ticket->unidad->nombre.'</strong><br><small>Cel. Ref: '.$reparacion->ticket->celular_referencia.'</small>';
+                            })
+                            ->editColumn('ticket.user.nickname', function($reparacion){
+                                return '<span class="label label-success">'.$reparacion->user->nickname.'</span>';
+                            })
+                            ->addColumn('btn','reparacions.partials.acciones')
+                            ->rawColumns(['btn','ticket.user.nickname','ticket.solicitante'])
+                            ->toJson();
+                            /*
+        return  datatables() 
+                ->eloquent($reparacions)                    
+                ->addIndexColumn()
                             ->editColumn('ticket.nro_ticket', function($reparacion){
                                 return $reparacion->ticket->fullticket;
                             })
@@ -51,12 +105,16 @@ class ReparacionController extends Controller
                             })
                             ->addColumn('btn','reparacions.partials.acciones')
                             ->rawColumns(['btn','ticket.user.nickname','ticket.solicitante'])
-                            ->toJson();
+                            ->toJson();*/
     }
     
-    public function index()
+    /**
+     * 
+    */
+    public function index(Request $request)
     {
-        return view('reparacions.index');
+        $gestion = ($request->gestion!=null)?$request->gestion:Carbon::now()->year;
+        return view('reparacions.index', compact('gestion'));
     }
 
     public function create()

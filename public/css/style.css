@@ -19,7 +19,7 @@
     margin: 0 0 10px 10px;
     margin-left: 10px;
     min-width: 80px;
-    height: 125px;
+    height: 136px;
     text-align: center;
     color: #666;
     border: 1px solid #ddd;
@@ -138,3 +138,154 @@ label.item > span.icon{
     display: block;
     font-size: 2em;
 }
+
+
+/**
+* Colores tabla tickets
+*/
+
+.tkcolor1{
+    background-color: #83FF7F !important;
+}
+
+.tkcolor2{
+    background-color: #FCEC5C !important;
+}
+
+.tkcolor3{
+    background-color:#FD4646 !important;
+}
+
+.tkcolor1:hover{
+    background-color: #AFFAAC !important;
+}
+
+.tkcolor2:hover{
+    background-color: #FFF38F !important;
+}
+
+.tkcolor3:hover{
+    background-color:#FA9999 !important;
+}
+
+
+
+/**
+* Card home
+*/
+.pcard {
+    padding-top: 20px;
+    margin: 5px 0 5px 0;
+    background-color: rgba(214, 224, 226, 0.2);
+    border-top-width: 0;
+    border-bottom-width: 2px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    height: 240px;
+}
+
+.pcard.hovercard {
+    position: relative;
+    padding-top: 0;
+    overflow: hidden;
+    text-align: center;
+    background-color: rgba(214, 224, 226, 0.2);
+}
+
+.pcard.hovercard .cardheader {    
+    background-color: #FD4646;
+    height: 75px;
+}
+
+.pcard.hovercard .avatar {
+    position: relative;
+    top: -50px;
+    margin-bottom: -50px;
+}
+
+.pcard.hovercard .avatar img {
+    width: 100px;
+    height: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border: 5px solid rgba(255,255,255,0.5);
+}
+
+.pcard.hovercard .info {
+    padding: 4px 8px 10px;
+}
+
+.pcard.hovercard .info .title {
+    margin-bottom: 4px;
+    font-size: 24px;
+    line-height: 1;
+    color: #262626;
+    vertical-align: middle;
+}
+
+.pcard.hovercard .info .desc {
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 20px;
+    color: #737373;
+    text-overflow: ellipsis;
+}
+
+
+
+/**
+* Estilos row datatables 
+*/
+.row_green{
+    background-color: #83FF7F !important;  
+}
+.row_green:hover{
+    background-color: #AFFAAC !important;  
+}
+
+.row_yellow{
+    background-color:#FCEC5C !important;
+}
+
+.row_yellow:hover{
+    background-color:#FFF38F !important;
+}   
+
+.row_red{
+    background-color:#FD4646 !important;
+}
+
+.row_red:hover{
+    background-color:#FA9999 !important;
+}   
+
+    .leyenda_esp_label{
+     margin-left: 6px;
+     font-size: 11px;
+     display: inline-block;
+     display:table-cell;
+     vertical-align:middle;
+   }
+   .lbox{
+     margin-right: 4px;
+     margin-left: 8px;
+     display:table-cell;
+     vertical-align:middle;
+     width: 18px;
+     height: 18px;  
+     display: inline-block;  
+     border: 1px solid #d6dadf;
+   }
+
+

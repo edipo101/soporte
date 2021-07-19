@@ -20,13 +20,27 @@
     	</li>
     	@endcan
     	@endif
-    	@if($estado != 'F')
+    	@if($estado != 'F' || $estado != 'T')
     	@can('tickets.asignar')
     	<li>
     		<a href="{{ route('tickets.asignar',$id) }}"><i class="fa fa-mail-forward"></i> Asignar</a>
     	</li>
     	@endcan
     	@endif
+    	@if($estado != 'T')
+    	@can('tickets.resolver')
+    	<li>
+    		<a href="javascript:void(0);" onclick="resolverTicket({{ $id }});return false;"><i class="fa fa-check"></i> Resuelto sin asignación</a>
+    	</li>
+    	@endcan
+    	@endif		
+		@if($estado == 'T')
+    	@can('tickets.undoresolver')
+    	<li>
+    		<a href="javascript:void(0);" onclick="deshacerTicket({{ $id }});return false;"><i class="fa fa-check"></i> Deshacer</a>
+    	</li>
+    	@endcan
+    	@endif		
     	@if($estado != 'F')
     	@can('tickets.destroy')
     	<li>

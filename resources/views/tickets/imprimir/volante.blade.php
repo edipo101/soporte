@@ -11,7 +11,7 @@
 		<table id="header">
 			<tr>
 				<td width="15%" rowspan="3" class="center">
-					<img src="img/logo.jpg" width='100px' id="logos">
+					<img src="img/logo.png" width='100px' id="logos">
 				</td>
 				<td width="70%" class="center">
 					<h1>GOBIERNO AUTÓNOMO MUNICIPAL DE SUCRE</h1>
@@ -134,10 +134,10 @@
 		</table>
 		<table width="100%" class="fecha">
 			<tr>
-				<td colspan="5" class="right">Fecha impresa: {{Carbon\Carbon::now()->format('d/m/Y g:i:s a')}}</td>
+				<td colspan="5" class="right">Fecha de impresión: {{Carbon\Carbon::now()->format('d/m/Y g:i:s a')}}</td>
 			</tr>
 			<tr>
-				<td colspan="5" class="right">Sistema realizado por la <strong>Jefatura de Tecnologías de la Información</strong> - Área de Desarrollo de Sistemas</td>
+				<td colspan="5" class="right">Sistema desarrollado por la <strong>Jefatura de Tecnologías de la Información</strong></td>
 			</tr>
 		</table>
 		

@@ -16,25 +16,39 @@ use App;
 class ExternoController extends Controller
 {
     
-    public function apiExternos()
+    /**
+     * @param int $gestion Ej. 2021
+     * 
+    */
+    public function apiExternos($gestion)
     {
-        if(auth()->user()->isRole('admin'))
-            $externos = Externo::with('unidad')->with('user')
-            // ->get()
-            ->orderBy('externos.id','desc')
-            ;
-        elseif(auth()->user()->isRole('encargado'))
-            $externos = Externo::with('unidad')->with('user')->where('gestion',Carbon::now()->year)
-            // ->get()
-            ->orderBy('externos.id','desc')
-        ;
-        // if(auth()->user()->isRole('admin') || auth()->user()->isRole('encargado'))
-        else
-            $externos = Externo::where('user_id',auth()->id())->with('unidad')->with('user')
-            // ->get()
-            ->orderBy('externos.id','desc')
-            ;
-        // return Datatables::of($externos)
+        if(auth()->user()->isRole('admin')){//todos los usuarios
+            $externos = Externo::with('unidad')
+            ->with('user')            
+            ->whereYear('fecha_elaboracion','=',$gestion)
+            ->orderBy('externos.id','desc');
+        }            
+        elseif(auth()->user()->isRole('encargado')){
+            $slug = slugTipoEncargado(auth()->user());
+            $externos = Externo::
+            whereHas('user.roles',function($query) use($slug){
+                $query->where('slug', $slug );
+            })
+            ->with('unidad')
+            ->with('user')            
+            ->whereYear('fecha_elaboracion','=',$gestion)
+            //->where('gestion',Carbon::now()->year)            
+            ->orderBy('externos.id','desc');            
+            //dd($slug, $externos);
+        }
+        else{//todos los informes del usuario
+            $externos = Externo::where('user_id',auth()->id())
+            ->with('unidad')
+            ->with('user')          
+            ->whereYear('fecha_elaboracion','=',$gestion)
+            ->orderBy('externos.id','desc');
+        }           
+        
         return datatables() 
                     ->eloquent($externos)
                     ->addIndexColumn()
@@ -60,9 +74,13 @@ class ExternoController extends Controller
                     ->toJson();
     }
 
-    public function index()
-    {
-        return view('externos.index');
+    /**
+     * @param int $gestion
+    */
+    public function index(Request $request)    
+    {        
+        $gestion = ($request->gestion!=null)?$request->gestion:2021;
+        return view('externos.index', compact('gestion'));
     }
 
     public function create()

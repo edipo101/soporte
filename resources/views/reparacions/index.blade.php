@@ -25,6 +25,30 @@
 			@endcan
 	  	</div>
 	</div>
+
+	<div class="box-body">
+		{!! Form::open(['route' => ['reparacions.index'] , 'class'=>'form-inline', 'id'=>'fexternos', 'method' => 'GET' ]) !!}
+			<div class="row">
+				<div class="col-md-2">
+					<div class="form-group">
+						{{ Form::label('gestion', 'Gestión :&nbsp;&nbsp;') }}
+						{{ Form::select('gestion', array('2021' => '2021', '2020' => '2020','2019' => '2019','2018' => '2018'), $gestion,['class'=> 'form-control', 'id'=>'gestion']) }}
+					</div>
+				</div> 
+				<div class="col-md-2">
+					<div class="form-group">
+						<button type="submit" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i> Buscar</button>
+					</div>
+				</div>
+				<div class="col-md-8">
+					
+				</div>
+			</div>
+			{!! Form::close() !!}
+			<hr/>
+	</div>
+
+
 	<div class="box-body">
 		<table id="reparacions" class="table table-bordered table-striped table-hover">
 			<thead>
@@ -61,7 +85,7 @@
         order: [[ 0, "desc" ]],
     	processing: true,
         serverSide: true,
-        ajax: '{!! route('reparacions.apiReparacions') !!}',
+        ajax: '{!! route('reparacions.apiReparacions', $gestion ) !!}',
         columns: [
             { data: 'numero_index' },
             { data: 'fecha_informe' },

@@ -1,14 +1,14 @@
 @extends('layouts.auth')
 
 @section('title')
-    GENERACION DE TICKET'S - SOPORTE TECNICO
+    GENERACION DE TICKET&apos;S
 @endsection
 
 @section('content')
-<body class="hold-transition login-page">
+<body class="hold-transition login-page" style="background-image: url('{{ asset('/img/tecnico.png') }}'); background-repeat: no-repeat;  background-size: 36% 100%; background-position: bottom | left ;">
 <div class="login-box">
   <div class="login-box-body">
-    <img src="{{ asset('/img/logo.jpg') }}" class="img-responsive center-block" width="50px">
+    <img src="{{ asset('/img/logo.png') }}" class="img-responsive center-block" width="50px">
     <hr>
     <h3 class="login-box-msg">SOPORTE TECNICO</h3>
     <div class="text-center">

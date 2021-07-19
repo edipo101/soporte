@@ -23,7 +23,7 @@
       </a>
     </li>
     @canatleast(['tickets.index'])
-    <li class="treeview {{ active('tickets/*') }}">
+    <li class="treeview {{ active('tickets') }}">
       <a href="#"><i class="fa fa-tags"></i> <span>TICKETS</span>
         <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
@@ -53,11 +53,20 @@
           </a>
         </li>
         @endcan
+        @if(auth()->user()->isRole('admin') || auth()->user()->isRole('encargado') || auth()->user()->isRole('externos') || auth()->user()->isRole('supervisor') )
+        @can('tickets.index')
+        <li class="{{ active('tickets/resueltos') }}">
+          <a href="{{ route('tickets.index','resueltos') }}">
+            <i class="fa fa-circle-o text-purple"></i> RESUELTOS SIN ASIGNACION
+          </a>
+        </li>
+        @endcan
+        @endif
       </ul>
     </li>
     @endcanatleast
     @canatleast(['bajas.index','recepcions.index','reposicions.index','reparacions.index','externos.index'])
-    <li class="treeview {{ active('informes/*') }}">
+    <li class="treeview {{ active('informes') }}">
       <a href="#"><i class="fa fa-file"></i> <span>INFORMES</span>
         <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
@@ -103,7 +112,7 @@
     </li>
     @endcanatleast
     @canatleast(['reportes.index','reportes.personalizado'])
-    <li class="treeview {{ active('reportes/*') }}">
+    <li class="treeview {{ active('reportes') }}">
       <a href="#"><i class="fa fa-pie-chart"></i> <span>REPORTES</span>
         <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>
@@ -130,12 +139,12 @@
     @can('direccions.index')
     <li class="{{ active('direccions') }}">
       <a href="{{ route('direccions.index') }}">
-        <i class="fa fa-wifi"></i> <span>DIRECCIONES IP's</span>
+        <i class="fa fa-wifi"></i> <span>DIRECCIONES IPs</span>
       </a>
     </li>
-    @endcan
+    @endcan    
     @canatleast(['componentes.index','unidads.index','diagnosticos.index','servicios.index','users.index','roles.index'])
-    <li class="treeview {{ active('configuraciones/*') }}">
+    <li class="treeview {{ active('configuraciones') }}">
       <a href="#"><i class="fa fa-cogs"></i> <span>CONFIGURACIONES</span>
         <span class="pull-right-container">
             <i class="fa fa-angle-left pull-right"></i>

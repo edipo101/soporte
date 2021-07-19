@@ -133,7 +133,7 @@ Route::group(['middleware' => ['auth']], function(){
         Route::delete('roles/{role}/delete','RoleController@destroy')->name('roles.destroy')->middleware('permission:roles.destroy');
 
         /**
-         * Rutas para el modulo de User
+         * Rutas para el modulo de User 
          */
         Route::get('users','TecnicoController@index')->name('users.index')->middleware('permission:users.index');
         Route::get('users/apiUsers','TecnicoController@apiUsers')->name('users.apiUsers')->middleware('permission:users.index');
@@ -159,8 +159,8 @@ Route::group(['middleware' => ['auth']], function(){
         /**
          * Rutas para el modulo de Ticket
          */
-        Route::get('{estado}','TicketController@index')->name('tickets.index')->middleware('permission:tickets.index');
-        Route::get('apiTickets/{tipo}','TicketController@apiTickets')->name('tickets.apiTickets')->middleware('permission:tickets.index');
+        Route::get('{estado}','TicketController@index')->name('tickets.index')->middleware('permission:tickets.index');        
+        Route::get('apiTickets/{tipo}/{gestion}','TicketController@apiTickets')->name('tickets.apiTickets')->middleware('permission:tickets.index');
         
         Route::get('create/{tipo}','TicketController@create')->name('tickets.create')->middleware('permission:tickets.create');
         Route::post('store','TicketController@store')->name('tickets.store')->middleware('permission:tickets.create');
@@ -174,10 +174,15 @@ Route::group(['middleware' => ['auth']], function(){
         
         Route::get('{ticket}/asignar','TicketController@asignar')->name('tickets.asignar')->middleware('permission:tickets.asignar');
         Route::post('{ticket}/asignar','TicketController@storeasignar')->name('tickets.storeasignar')->middleware('permission:tickets.asignar');
+
+        Route::get('{ticket}/resolver','TicketController@resolver')->name('tickets.resolver');
+        Route::get('{ticket}/deshacerresuelto','TicketController@deshacer')->name('tickets.undoresolver');
         
+
         Route::get('{ticket}/informe','TicketController@informe')->name('tickets.informe')->middleware('permission:tickets.informe');
         
     });
+    
     /**
      * Rutas para los informes tecnicos
      */
@@ -186,7 +191,7 @@ Route::group(['middleware' => ['auth']], function(){
         * Rutas para el modulo de Baja
         */
         Route::get('bajas','BajaController@index')->name('bajas.index')->middleware('permission:bajas.index');
-        Route::get('bajas/apiBajas','BajaController@apiBajas')->name('bajas.apiBajas')->middleware('permission:bajas.index');
+        Route::get('bajas/apiBajas/{gestion}','BajaController@apiBajas')->name('bajas.apiBajas')->middleware('permission:bajas.index');
 
         Route::get('bajas/create','BajaController@create')->name('bajas.create')->middleware('permission:bajas.create');
         Route::post('bajas/store','BajaController@store')->name('bajas.store')->middleware('permission:bajas.create');
@@ -208,7 +213,7 @@ Route::group(['middleware' => ['auth']], function(){
         * Rutas para el modulo de Reparacion
         */
         Route::get('reparacions','ReparacionController@index')->name('reparacions.index')->middleware('permission:reparacions.index');
-        Route::get('reparacions/apiReparacions','ReparacionController@apiReparacions')->name('reparacions.apiReparacions')->middleware('permission:reparacions.index');
+        Route::get('reparacions/apiReparacions/{gestion}','ReparacionController@apiReparacions')->name('reparacions.apiReparacions')->middleware('permission:reparacions.index');
 
         Route::get('reparacions/create','ReparacionController@create')->name('reparacions.create')->middleware('permission:reparacions.create');
         Route::post('reparacions/store','ReparacionController@store')->name('reparacions.store')->middleware('permission:reparacions.create');
@@ -232,7 +237,7 @@ Route::group(['middleware' => ['auth']], function(){
         * Rutas para el modulo de Reposicion
         */
         Route::get('reposicions','ReposicionController@index')->name('reposicions.index')->middleware('permission:reposicions.index');
-        Route::get('reposicions/apiReposicions','ReposicionController@apiReposicions')->name('reposicions.apiReposicions')->middleware('permission:reposicions.index');
+        Route::get('reposicions/apiReposicions/{gestion}','ReposicionController@apiReposicions')->name('reposicions.apiReposicions')->middleware('permission:reposicions.index');
 
         Route::get('reposicions/create','ReposicionController@create')->name('reposicions.create')->middleware('permission:reposicions.create');
         Route::post('reposicions/store','ReposicionController@store')->name('reposicions.store')->middleware('permission:reposicions.create');
@@ -254,7 +259,7 @@ Route::group(['middleware' => ['auth']], function(){
         * Rutas para el modulo de Recepcion
         */
         Route::get('recepcions','RecepcionController@index')->name('recepcions.index')->middleware('permission:recepcions.index');
-        Route::get('recepcions/apiRecepcions','RecepcionController@apiRecepcions')->name('recepcions.apiRecepcions')->middleware('permission:recepcions.index');
+        Route::get('recepcions/apiRecepcions/{gestion}','RecepcionController@apiRecepcions')->name('recepcions.apiRecepcions')->middleware('permission:recepcions.index');
 
         Route::get('recepcions/create','RecepcionController@create')->name('recepcions.create')->middleware('permission:recepcions.create');
         Route::post('recepcions/store','RecepcionController@store')->name('recepcions.store')->middleware('permission:recepcions.create');
@@ -277,7 +282,7 @@ Route::group(['middleware' => ['auth']], function(){
         * Rutas para el modulo de Externo
         */
         Route::get('externos','ExternoController@index')->name('externos.index')->middleware('permission:externos.index');
-        Route::get('externos/apiExternos','ExternoController@apiExternos')->name('externos.apiExternos')->middleware('permission:externos.index');
+        Route::get('externos/apiExternos/{gestion}','ExternoController@apiExternos')->name('externos.apiExternos')->middleware('permission:externos.index');
 
         Route::get('externos/create','ExternoController@create')->name('externos.create')->middleware('permission:externos.create');
         Route::post('externos/store','ExternoController@store')->name('externos.store')->middleware('permission:externos.create');
@@ -293,6 +298,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::group(['prefix' => 'reportes'], function(){
         Route::get('estadisticos', 'ReporteController@index')->name('reportes.index')->middleware('permission:reportes.index');
+        Route::post('estadisticos', 'ReporteController@index')->name('reportes.index')->middleware('permission:reportes.index');
         
         Route::get('informes', 'ReporteController@informes')->name('reportes.informes')->middleware('permission:reportes.personalizado');
 

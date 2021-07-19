@@ -25,28 +25,46 @@ use SIS\Http\Requests\CambioFechaRequest;
 class RecepcionController extends Controller
 {
     
-    public function apiRecepcions()
+    public function apiRecepcions($gestion)
     {
-        if(auth()->user()->isRole('admin'))
-            $recepcions = Recepcion::with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')
-            // ->get()
-            ->orderBy('recepcions.id','desc')
-            ;
-        elseif(auth()->user()->isRole('encargado'))
-            $recepcions = Recepcion::with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')->where('gestion',Carbon::now()->year)
-            // ->get()
-            ->orderBy('recepcions.id','desc')
-            ;
-        elseif(auth()->user()->isRole('cambio-fecha'))
-            $recepcions = Recepcion::with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')->where('gestion',Carbon::now()->year)
-            // ->get()
-            ->orderBy('recepcions.id','desc')
-            ;
-        else
-            $recepcions = Recepcion::where('user_id',auth()->id())->where('gestion',Carbon::now()->year)->with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')
-            // ->get()
-            ->orderBy('recepcions.id','desc')
-            ;
+        if(auth()->user()->isRole('admin')){
+            $recepcions = Recepcion::with('ticket')
+            ->with('ticket.unidad')
+            ->with('ticket.componente')
+            ->with('ticket.user')            
+            ->where('gestion', $gestion)
+            ->orderBy('recepcions.id','desc');
+        }            
+        elseif(auth()->user()->isRole('encargado')){
+            $slug = slugTipoEncargado(auth()->user());
+            $recepcions = Recepcion::
+                whereHas('ticket.user.roles',function($query) use($slug){
+                    $query->where('slug', $slug );
+                    //->orWhere('slug','guest');
+                })
+                ->with('ticket')
+                ->with('ticket.unidad')
+                ->with('ticket.componente')
+                ->with('ticket.user')
+                ->where('gestion', $gestion)
+                ->orderBy('recepcions.id','desc');
+        }            
+        elseif(auth()->user()->isRole('cambio-fecha')){
+            $recepcions = Recepcion::with('ticket')
+            ->with('ticket.unidad')
+            ->with('ticket.componente')
+            ->with('ticket.user')
+            ->where('gestion', $gestion) 
+            ->orderBy('recepcions.id','desc');
+        }            
+        else{
+            $recepcions = Recepcion::where('user_id',auth()->id())
+            ->where('gestion', $gestion)
+            ->with('ticket')->with('ticket.unidad')
+            ->with('ticket.componente')
+            ->with('ticket.user')                        
+            ->orderBy('recepcions.id','desc');
+        }            
         // return Datatables::of($recepcions)
         return datatables() 
                     ->eloquent($recepcions)
@@ -61,7 +79,7 @@ class RecepcionController extends Controller
                         return $recepcion->ticket->fecha_asignada->format('d/m/Y');
                     })
                     ->editColumn('ticket.solicitante', function($recepcion){
-                        return $recepcion->ticket->solicitante.'<br><strong>'.$recepcion->ticket->unidad->nombre.'</strong>';
+                        return $recepcion->ticket->solicitante.'<br><strong>'.$recepcion->ticket->unidad->nombre.'</strong><br><small>Cel. Ref: '.$recepcion->ticket->celular_referencia.'</small>';
                     })
                     ->editColumn('ticket.user.nickname', function($recepcion){
                         return '<span class="label label-success">'.$recepcion->user->nickname.'</span>';
@@ -71,9 +89,13 @@ class RecepcionController extends Controller
                     ->toJson();
     }
     
-    public function index()
+    /**
+     * 
+    */
+    public function index(Request $request)
     {
-        return view('recepcions.index');
+        $gestion = ($request->gestion!=null)?$request->gestion:Carbon::now()->year;
+        return view('recepcions.index', compact('gestion') );
     }
 
     public function create()
@@ -207,6 +229,9 @@ class RecepcionController extends Controller
         return response()->json();
     }
 
+    /**
+     * 
+    */
     public function imprimir($id){
         $recepcion = Recepcion::find($id);
         $pdf = App::make('dompdf.wrapper');

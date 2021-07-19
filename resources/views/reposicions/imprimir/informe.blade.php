@@ -155,7 +155,7 @@
 	<table id="header">
 		<tr>
 			<td width="15%" rowspan="3" class="center">
-				<img src="img/logo.jpg" width='125px' id="logos" alt="Logo GAMS">
+				<img src="img/logo.png" width='125px' id="logos" alt="Logo GAMS">
 			</td>
 			<td width="70%" class="center">
 				<h1>GOBIERNO AUTÓNOMO MUNICIPAL DE SUCRE</h1>

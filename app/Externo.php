@@ -4,9 +4,16 @@ namespace SIS;
 
 use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Date\Date;
+use SIS\Informe;
 
+/**
+ * Importante: campo "gestion" ya no se utiliza
+*/
 class Externo extends Model
 {
+
+    use Informe;
+
     protected $fillable = [
         'nombre','unidad_id','user_id','descripcion','fecha_elaboracion','fecha_entrega','estado'
     ];

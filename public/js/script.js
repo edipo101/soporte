@@ -45,6 +45,7 @@ $('#ticket_id').change(function (e) {
 		$("#componente_id option[value="+ data.componente_id +"]").attr("selected",true);
 	});
 });
+
 // Habilitar Editar ticket
 $('#editar-ticket').on('click', function(e){
 	e.preventDefault();
@@ -55,6 +56,7 @@ $('#editar-ticket').on('click', function(e){
 	// $("#unidad_id").select2();
 	// $("#componente_id").select2();
 });
+
 // Desabilitar los campos del ticket
 const limpiar = () =>{
 	$('#tsolicitud').prop('disabled', true);
@@ -117,7 +119,10 @@ const mostrar = (id,informe)=>{
 	});
 }
  
-// ELIMINAR UN REGISTRO CUALQUIERA DEL SISTEMA MANDANDO LA RUTA, NOMBRE DE MODULO, Y TABLA
+
+/**
+ * ELIMINAR UN REGISTRO CUALQUIERA DEL SISTEMA MANDANDO LA RUTA, NOMBRE DE MODULO, Y TABLA
+*/
 const eliminar = (ruta,nombre,tabla) =>{
     swal({
         title: `Eliminar ${nombre}`,
@@ -137,6 +142,64 @@ const eliminar = (ruta,nombre,tabla) =>{
                     toastr.options = opcionesToastr;
                     let mensaje = `${nombre.toUpperCase()} se elimino correctamente`;
                     toastr.error(mensaje,'Eliminado!');
+                    tabla.ajax.reload(null,false);
+                }
+            });
+        }
+    });
+};
+
+/**
+ * 
+*/
+const resolver = (ruta,nombre,tabla) =>{
+    swal({
+        title: `Resolver Ticket`,
+        text: `Esta acción marcara el ticket como resuleto y no sera necesario realizar un informe.\n ¿Desea continuar?`,
+        type: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Resolver',
+		cancelButtonText: 'Cancelar'
+    }).then((result) => {        
+        if(result.value){
+            $.ajax({
+                url: ruta,
+                method: 'GET',
+                success:function(data){
+                    toastr.options = opcionesToastr;
+                    let mensaje = `${nombre.toUpperCase()} se marco como resuelto`;
+                    toastr.info(mensaje,'Resuelto!');
+                    tabla.ajax.reload(null,false);
+                }
+            });
+        }
+    });
+};
+
+/**
+ * 
+*/
+const deshacer = (ruta,nombre,tabla) =>{
+    swal({
+        title: `Deshacer Ticket Resuelto`,
+        text: `Retorna al estado de Ticket Recepcionado.\n ¿Desea continuar?`,
+        type: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Continuar',
+		cancelButtonText: 'Cancelar'
+    }).then((result) => {        
+        if(result.value){
+            $.ajax({
+                url: ruta,
+                method: 'GET',
+                success:function(data){
+                    toastr.options = opcionesToastr;
+                    let mensaje = `${nombre.toUpperCase()} se marco como Ticket Recepcionado`;
+                    toastr.info(mensaje,'Exito!');
                     tabla.ajax.reload(null,false);
                 }
             });

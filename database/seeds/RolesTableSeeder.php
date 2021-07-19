@@ -38,5 +38,19 @@ class RolesTableSeeder extends Seeder
             'name' => 'Tecnico',
             'slug' => 'tecnico'
         ]);
+
+        /**
+         * Nuevos roles 2021
+        */
+        Role::create([
+            'name' => 'Educación',
+            'slug' => 'educacion'
+        ]);
+
+        Role::create([
+            'name' => 'Salud',
+            'slug' => 'salud'
+        ]);
+
     }
 }

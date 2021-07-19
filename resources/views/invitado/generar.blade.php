@@ -1,7 +1,7 @@
 @extends('layouts.auth')
 
 @section('title')
-    GENERACION DE TICKET'S - SOPORTE TECNICO
+    GENERACION DE TICKET&apos;S
 @endsection
 
 @section('css')
@@ -12,7 +12,7 @@
 <body class="hold-transition register-page">
 <div class="register-box-ticket">
   <div class="register-logo">
-  	<img src="{{ asset('/img/logo.jpg') }}" class="img-responsive center-block" width="50px">
+  	<img src="{{ asset('/img/logo.png') }}" class="img-responsive center-block" width="50px">
   	SOPORTE TECNICO
   </div>
 {!! Form::open(['route' => 'home.storeticket']) !!}
@@ -98,8 +98,15 @@
             @foreach($componentes as $componente)
                 <input type="radio" name="componente_id" value={{ $componente->id }} id="comp{{ $componente->id }}" class="radio-boton">
                 {{-- {{ Form::radio('componente_id',$componente->id,['id'=>'comp']) }} --}}
-                <label class="item" for="comp{{ $componente->id }}">
-                    <span class="icon icon-{{ $componente->icono }}"></span> {{ strtoupper($componente->nombre) }}
+                <label class="item" for="comp{{ $componente->id }}" data-toggle="tooltip" data-placement="top" title="{{ $componente->descripcion }}">
+                    {{-- <span class="icon icon-{{ $componente->icono }}"></span> {{ strtoupper($componente->nombre) }} --}}
+                    @if($componente->icono!=null)
+                      <img src="{{ asset('/img/icons/'.$componente->icono.'.png') }}" class="img-responsive center-block">  
+                    @else 
+                      <img src="{{ asset('/img/icons/default.png') }}" class="center-block">  
+                    @endif
+                    
+                    {{ strtoupper($componente->nombre) }}
                 </label>
             @endforeach
         </div>
@@ -115,14 +122,14 @@
 			@foreach($diagnosticos as $diagnostico)
 				<div class="checkbox icheck">
 		            <label>
-		                {{ Form::checkbox('diagnosticos[]', $diagnostico->id,null,['class'=>'radio']) }}
+		                {{ Form::checkbox('diagnosticos[]', $diagnostico->id,null,['class'=>'radio']) }} &nbsp;&nbsp;
 		                <strong>{{ $diagnostico->nombre }}</strong> <em>({{ $diagnostico->descripcion }})</em>
 		            </label>
 		        </div>
 			@endforeach
 		</div>
 		<div class="form-group">
-			{{ Form::label('observacion', 'Observacion') }}
+			{{ Form::label('observacion', 'Observacion') }} <label data-toggle="tooltip" data-placement="top" title="Detalle el componente y problema que necesita atención (Cantidad, Marca, etc )">(?)</label>
 			{{ Form::textarea('observacion',null,['class'=> 'form-control text-uppercase', 'rows' => '3']) }}
 		</div>
 		<div class="form-group">
@@ -135,26 +142,38 @@
     <!-- /.tab-content -->
   {!! Form::close() !!}
   </div>
+  <div class="row">
+    <div class="col-xs-12 text-center">
+      <a href="{{ url('/login') }}" class="btn btn-link">IR AL SISTEMA</a>
+    </div>
+  </div>
 @include('layouts.partials.scripts-auth')
 <!-- InputMask -->
 <script src="{{ asset('plugins/input-mask/jquery.inputmask.js') }}"></script>
 <script src="{{ asset('plugins/bootstrap3-typeahead/bootstrap3-typeahead.js') }}" type="text/javascript"></script>
+<script src="{{ asset('plugins/popper/popper.min.js') }}" type="text/javascript"></script>
 <script>
     $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+
         $('input.radio').iCheck({
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue',
             increaseArea: '20%' // optional
         });
+
         $('#celular_referencia').inputmask('99999999');
-    	$('#telef_referencia').inputmask('64-99999');
-    	var route_unidades = "{{ route('unidads.getUnidads') }}";
-		$.get(route_unidades, function(data){
-		  $("#unidad").typeahead({
-		  	source:data,
-		  	displayText: function(data){ return data.nombre;},
-		  });
-		},'json');
+
+    	  $('#telef_referencia').inputmask('64-99999');
+
+    	  var route_unidades = "{{ route('unidads.getUnidads') }}";
+          $.get(route_unidades, function(data){
+            $("#unidad").typeahead({
+            source:data,
+            displayText: function(data){ return data.nombre;},
+          });
+		    },'json');
+
     });
 </script>
 </body>

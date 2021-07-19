@@ -34,6 +34,11 @@ class User extends Authenticatable
         return $tecnico->fullnombre;
     }
 
+    public function getInfoUserAttribute(){
+        $tecnico = Tecnico::find($this->tecnico_id);
+        return $tecnico->fullnombre . ' - ' . getAllRole($this);
+    }
+
     public function tecnico(){
         return $this->belongsTo(Tecnico::class);
     }

@@ -10,7 +10,7 @@
 		<table id="header">
 			<tr>
 				<td width="15%" rowspan="3" class="center">
-					<img src="img/logo.png" width='125px' id="logos" alt="Logo GAMS">
+					<img src="img/logo.png" width='125px' id="logos" alt="GAMS">
 				</td>
 				<td width="70%" class="center">
 					<h1>GOBIERNO AUTÓNOMO MUNICIPAL DE SUCRE</h1>
@@ -73,7 +73,7 @@
 		<table id="codigo">
 			<tr>
 				<td>
-					<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->generate($recepcion->funcionario->nombre.' '.$recepcion->funcionario->apellidos.' | '.$recepcion->funcionario->carnet.''.$recepcion->funcionario->exp.' | '.$recepcion->funcionario->cargo.' | Fecha Solicitud:'.$recepcion->fecha_solicitud)) }} ">
+					<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->margin(0)->mergeString( Storage::get('public/img/box21.png') , 0.3 )->generate($recepcion->funcionario->nombre.' '.$recepcion->funcionario->apellidos.' | '.$recepcion->funcionario->carnet.''.$recepcion->funcionario->exp.' | '.$recepcion->funcionario->cargo.' | Fecha Solicitud:'.$recepcion->fecha_solicitud)) }} ">
 					<p>Código de Verificación</p>
 				</td>
 			</tr>
@@ -145,7 +145,7 @@
 		<table id="codigo">
 			<tr>
 				<td>
-					<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->generate($recepcion->funcionario->nombre.' '.$recepcion->funcionario->apellidos.' | '.$recepcion->funcionario->carnet.''.$recepcion->funcionario->exp.' | '.$recepcion->funcionario->cargo.' | Fecha Solicitud:'.$recepcion->fecha_solicitud)) }} ">
+					<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->margin(0)->mergeString( Storage::get('public/img/box21.png') , 0.3 )->generate($recepcion->funcionario->nombre.' '.$recepcion->funcionario->apellidos.' | '.$recepcion->funcionario->carnet.''.$recepcion->funcionario->exp.' | '.$recepcion->funcionario->cargo.' | Fecha Solicitud:'.$recepcion->fecha_solicitud)) }} ">
 					<p>Código de Verificación</p>
 				</td>
 			</tr>
@@ -309,10 +309,10 @@
 		</tr>
 	</table>
 
-	<table id="codigo">
+	<table id="codigo" style="margin:30px 0 0 0;">
 		<tr>
 			<td>
-				<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->generate($recepcion->autentificacion_recepcion)) }} ">
+				<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->margin(0)->mergeString( Storage::get('public/img/box21.png') , 0.3 )->generate($recepcion->autentificacion_recepcion)) }} ">
 				<p>Código de Verificación</p>
 			</td>
 		</tr>
@@ -320,10 +320,10 @@
 
 	<table width="100%" id="fecha">
 		<tr>
-			<td colspan="5">Fecha impresa: {{ $recepcion->fecha_informe->format('d/m/Y h:i:s a') }}</td>
+			<td colspan="5">Fecha de impresión: {{ $recepcion->fecha_informe->format('d/m/Y h:i:s a') }}</td>
 		</tr>
 		<tr>
-			<td colspan="5">Sistema realizado por la <strong>Jefatura de Tecnologías de la Información</strong> - Área de Desarrollo de Sistemas</td>
+			<td colspan="5">Sistema desarrollado por la <strong>Jefatura de Tecnologías de la Información</strong></td>
 		</tr>
 	</table>
 
@@ -347,17 +347,17 @@
 	 <table id="codigo">
 		<tr>
 			<td>
-				<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->generate($recepcion->autentificacion_recepcion)) }} ">
+				<img src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(300)->margin(0)->mergeString( Storage::get('public/img/box21.png') , 0.3 )->generate($recepcion->autentificacion_recepcion)) }} ">
 				<p>Código de Verificación</p>
 			</td>
 		</tr>
 	</table>
 	<table width="100%" id="fecha">
 		<tr>
-			<td colspan="5">Fecha impresa: {{ $recepcion->fecha_informe->format('d/m/Y h:i:s a') }}}</td>
+			<td colspan="5">Fecha impresión: {{ $recepcion->fecha_informe->format('d/m/Y h:i:s a') }}}</td>
 		</tr>
 		<tr>
-			<td colspan="5">Sistema realizado por la <strong>Jefatura de Tecnologías de la Información</strong> - Área de Desarrollo de Sistemas</td>
+			<td colspan="5">Sistema desarrollado por la <strong>Jefatura de Tecnologías de la Información</strong></td>
 		</tr>
 	</table>
 	 @endif

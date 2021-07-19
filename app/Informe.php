@@ -5,7 +5,6 @@ namespace SIS;
 
 trait Informe
 {
-    // use SoftDeletes;
     
     // protected $dates = [
     //     'deleted_at',
@@ -29,9 +28,22 @@ trait Informe
                     ->where('fecha_informe','<=',$fecha2)
                     ->where('user_id',$usuario);
     }
+
+    public function scopeReporteE($query, $fecha1, $fecha2,$usuario){
+        return $query->where('fecha_elaboracion','>=',$fecha1)
+                    ->where('fecha_elaboracion','<=',$fecha2)
+                    ->where('user_id',$usuario);
+    }
+
     public function scopeReporteMes($query, $mes, $year,$usuario){
         return $query->whereMonth('fecha_informe', $mes)
                     ->whereYear('fecha_informe', $year)
+                    ->where('user_id',$usuario);
+    }
+
+    public function scopeReporteMesE($query, $mes, $year,$usuario){
+        return $query->whereMonth('fecha_elaboracion', $mes)
+                    ->whereYear('fecha_elaboracion', $year)
                     ->where('user_id',$usuario);
     }
 

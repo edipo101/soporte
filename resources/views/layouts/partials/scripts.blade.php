@@ -2,6 +2,7 @@
 
 <!-- jQuery 3 -->
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+
 <!-- Bootstrap 3.3.7 -->
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 <!-- SlimScroll -->

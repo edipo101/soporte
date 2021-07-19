@@ -1,4 +1,5 @@
-@extends('layouts.master')
+@extends('layouts.app')
+{{-- @extends('layouts.master') --}}
 
 @section('title')
     PAGINA NO ENCONTRADA

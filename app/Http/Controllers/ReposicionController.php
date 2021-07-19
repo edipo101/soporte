@@ -25,21 +25,53 @@ use SIS\Http\Requests\CambioFechaRequest;
 class ReposicionController extends Controller
 {
 
-    public function apiReposicions()
+    /**
+     * 
+    */
+    public function apiReposicions($gestion)
     {
-        if(auth()->user()->isRole('admin'))
-            $reposicions = Reposicion::with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')->get();
-        elseif(auth()->user()->isRole('encargado'))
-            $reposicions = Reposicion::with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')->where('gestion',Carbon::now()->year)->get();
-        elseif(auth()->user()->isRole('cambio-fecha'))
-            $reposicions = Reposicion::with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')->where('gestion',Carbon::now()->year)->get();
-        else
-            $reposicions = Reposicion::where('user_id',auth()->id())->where('gestion',Carbon::now()->year)->with('ticket')->with('ticket.unidad')->with('ticket.componente')->with('ticket.user')->get();
-            // dd($reposicions->first()->ticket->fullticket);
+        if(auth()->user()->isRole('admin')){
+            $reposicions = Reposicion::with('ticket')
+            ->with('ticket.unidad')
+            ->with('ticket.componente')
+            ->with('ticket.user')
+            ->where('gestion', $gestion) 
+            ->get();
+        }            
+        elseif(auth()->user()->isRole('encargado')){
+            $slug = slugTipoEncargado(auth()->user());
+            $reposicions = Reposicion::
+            whereHas('ticket.user.roles',function($query) use($slug){
+                $query->where('slug', $slug );
+            })
+            ->with('ticket')
+            ->with('ticket.unidad')
+            ->with('ticket.componente')
+            ->with('ticket.user')
+            ->where('gestion', $gestion)
+            ->get();
+        }            
+        elseif(auth()->user()->isRole('cambio-fecha')){
+            $reposicions = Reposicion::with('ticket')
+            ->with('ticket.unidad')
+            ->with('ticket.componente')
+            ->with('ticket.user')
+            ->where('gestion',$gestion)->get();
+        }            
+        else{
+            $reposicions = Reposicion::where('user_id',auth()->id())
+            ->where('gestion', $gestion)
+            ->with('ticket')
+            ->with('ticket.unidad')
+            ->with('ticket.componente')
+            ->with('ticket.user')->get();
+        }            
+            
         return Datatables::of($reposicions)
                                 ->addIndexColumn()
                                 ->editColumn('ticket.nro_ticket', function($reposicion){
-                                    return $reposicion->ticket->gestion;
+                                    //return $reposicion->ticket->gestion;
+                                    return $reposicion->ticket->fullticket;
                                 })
                                 ->editColumn('fecha_informe', function($reposicion){
                                     return $reposicion->fecha_informe->format('d/m/Y');
@@ -48,7 +80,7 @@ class ReposicionController extends Controller
                                     return $reposicion->ticket->fecha_asignada->format('d/m/Y');
                                 })
                                 ->editColumn('ticket.solicitante', function($reposicion){
-                                    return $reposicion->ticket->solicitante.'<br><strong>'.$reposicion->ticket->unidad->nombre.'</strong>';
+                                    return $reposicion->ticket->solicitante.'<br><strong>'.$reposicion->ticket->unidad->nombre.'</strong><br><small>Cel. Ref: '.$reposicion->ticket->celular_referencia.'</small>';
                                 })
                                 ->editColumn('ticket.user.nickname', function($reposicion){
                                     return '<span class="label label-success">'.$reposicion->user->nickname.'</span>';
@@ -58,9 +90,13 @@ class ReposicionController extends Controller
                             ->toJson();
     }
     
-    public function index()
+    /**
+     * 
+    */
+    public function index(Request $request)
     {
-        return view('reposicions.index');
+        $gestion = ($request->gestion!=null)?$request->gestion:Carbon::now()->year;
+        return view('reposicions.index', compact('gestion'));
     }
 
     public function create()

@@ -11,20 +11,19 @@
         <!-- Menu Toggle Button -->
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
           <!-- The user image in the navbar-->
-          <img src="{{ asset('img/users/'.auth()->user()->tecnico->foto) }}" class="user-image" alt="User Image">
+          <img src="{{ asset('img/users/'.auth()->user()->tecnico->foto) }}" class="user-image" alt="Usuario">
           <!-- hidden-xs hides the username on small devices so only the image appears. -->
           <span class="hidden-xs">{{ auth()->user()->nickname }}</span>
-        </a>
+        </a>        
         <ul class="dropdown-menu">
           <!-- The user image in the menu -->
           <li class="user-header">
-            <img src="{{ asset('img/users/'.auth()->user()->tecnico->foto) }}" class="img-circle" alt="User Image">
-
+            <img src="{{ asset('img/users/'.auth()->user()->tecnico->foto) }}" class="img-circle" alt="usuario">
             <p>
               {{ auth()->user()->nombretecnico }} <br>
               <span class="label label-primary">
                 @foreach(auth()->user()->roles as $role)
-                  <span class="label bg-navy">{{ $role->slug }}</span>
+                  <span class="">{{ $role->slug }}</span>
                 @endforeach
               </span>
               <small class='text-uppercase'>{{ Date::now()->toFormattedDateString() }}</small>

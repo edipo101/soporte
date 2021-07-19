@@ -8,7 +8,7 @@
 	<h1>
 		<i class="fa fa-calendar"></i> 
 		REPORTES
-		<small>Lista de Reportes que genera el Sistema</small>
+		<small>Lista de Reportes disponibles</small>
 	</h1>
 @endsection
 
@@ -30,6 +30,7 @@
             <!-- /.box-body -->
         </div>
     </div>
+    
     <div class="col-md-6">
         <div class="box">
             <div class="box-header with-border">
@@ -88,20 +89,44 @@
         usuario,
         ruta;
 
+    /**
+    * Reporte mensual
+    */    
     btnImprimirMes.addEventListener('click', e=>{
-        e.preventDefault();
-        usuario = document.getElementById('usuariomes');
-        tipo = document.getElementById('tipomes');
-        ruta = `${direccion}/reportes/mensual/imprimir/${mes.value}/${anio.value}/${usuario.value}/${tipo.value}`;
-        imprimir(ruta);
+        e.preventDefault();     
+        
+        if( mes.value && anio.value ){                        
+            usuario = document.getElementById('usuariomes');
+            tipo = document.getElementById('tipomes');
+            if(usuario.value && tipo.value){ 
+                ruta = `${direccion}/reportes/mensual/imprimir/${mes.value}/${anio.value}/${usuario.value}/${tipo.value}`;
+                imprimir(ruta);            
+            }else{
+                Swal.fire('Error. Seleccione un tipo de informe y usuario');
+            }            
+        }else{
+            Swal.fire('Error. Los datos son incorrectos, no se puede generar el informe');
+        }        
+        
     })
     
+    /**
+    * Informe personalizado
+    */
     btnImprimir.addEventListener('click', e=>{
         e.preventDefault();
-        usuario = document.getElementById('usuario');
-        tipo = document.getElementById('tipo');
-        ruta = `${direccion}/reportes/personalizado/imprimir/${fecha1.value}/${fecha2.value}/${usuario.value}/${tipo.value}`;  
-        imprimir(ruta);
+        if( fecha1.value && fecha2.value ){
+            usuario = document.getElementById('usuario');
+            tipo = document.getElementById('tipo');
+            if(usuario.value && tipo.value){
+                ruta = `${direccion}/reportes/personalizado/imprimir/${fecha1.value}/${fecha2.value}/${usuario.value}/${tipo.value}`;  
+                imprimir(ruta);
+            }else{
+                Swal.fire('Error. Seleccione un tipo de informe y usuario');
+            }
+        }else{
+            Swal.fire('Error. Los datos son incorrectos, no se puede generar el informe'); 
+        }
     })
 </script>
 @endsection

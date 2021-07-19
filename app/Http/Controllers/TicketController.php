@@ -1,5 +1,4 @@
 <?php
-
 namespace SIS\Http\Controllers;
 
 use SIS\Ticket;
@@ -9,7 +8,6 @@ use SIS\Componente;
 use SIS\User;
 use SIS\Tecnico;
 use Illuminate\Http\Request;
-
 use Toastr;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
@@ -18,14 +16,61 @@ use App;
 class TicketController extends Controller
 {
 
-    public function apiTickets($tipo)
+    public function apiTickets($tipo, $gestion)
     {
         if(auth()->user()->isRole('admin'))
-            $tickets = Ticket::with('unidad')->with('componente')->with('user')->where('estado',$tipo)->get();
-        elseif(auth()->user()->isRole('encargado'))
-            $tickets = Ticket::with('unidad')->with('componente')->with('user')->where('estado',$tipo)->where('gestion',Carbon::now()->year)->get();
-        else
-            $tickets = Ticket::with('unidad')->with('componente')->with('user')->where('user_id',auth()->id())->where('estado',$tipo)->where('gestion',Carbon::now()->year)->get();
+        {
+            $tickets = Ticket::with('unidad')
+            ->with('componente')
+            ->with('user')
+            ->where('gestion', $gestion)  
+            ->where('estado',$tipo)->get();
+        }            
+        /*elseif( auth()->user()->isRole('encargado') ){
+            $tickets = Ticket::with('unidad')->with('componente')
+            ->with('user')
+            ->where('estado',$tipo)
+            ->where('gestion',Carbon::now()->year)
+            ->get();
+        }*/
+        elseif( auth()->user()->isRole('encargado') ){//solo encragados de area
+            $slug = slugTipoEncargado(auth()->user());            
+
+            $tickets = Ticket::with('unidad')->with('componente')
+            ->with('user')
+            ->whereHas('user.roles',function($query) use($slug){
+                $query->where('slug',$slug)
+                ->orWhere('slug','guest');
+            })
+            ->where('estado',$tipo)
+            ->where('gestion', $gestion)
+            ->orderBy('id','ASC')
+            ->get();            
+        }elseif( auth()->user()->isRole('externos') ){
+            $tickets = Ticket::with('unidad')
+            ->with('componente')
+            ->with('user')            
+            ->whereHas('user.roles',function($query){
+                $query->where('slug','externos')
+                ->orWhere('slug','guest');
+            })                        
+            ->where('estado',$tipo)
+            ->where('gestion', $gestion)
+            ->where('user_id',auth()->id())//usuario logueado
+            ->orWhere('user_id',13)//usuario invitado
+            ->where('estado',$tipo)
+            ->get();
+        }
+        else{
+            $tickets = Ticket::with('unidad')
+            ->with('componente')
+            ->with('user')
+            ->where('user_id',auth()->id())
+            ->where('estado',$tipo)
+            ->where('gestion', $gestion)
+            ->get();            
+        }
+
         return Datatables::of($tickets)
                             ->addIndexColumn()
                             ->editColumn('nro_ticket', function($ticket){
@@ -42,25 +87,53 @@ class TicketController extends Controller
                             })
                             ->editColumn('solicitante', function($ticket){
                                 return $ticket->solicitante==""? $ticket->empresa.'<br><strong>'.$ticket->unidad->nombre.'</strong>' : $ticket->solicitante.'<br><strong>'.$ticket->unidad->nombre.'</strong>';
-                            })
-                            ->editColumn('celular_referencia', function($ticket){
-                                $telefono = $ticket->telef_referencia==""? "S/N": $ticket->telef_referencia;
-                                $celular = $ticket->celular_referencia==""? "S/N": $ticket->celular_referencia;
-                                return $telefono ."<br>". $celular;
-                            })
+                            })                            
                             ->editColumn('observacion', function($ticket){
                                 return $ticket->observacion==""? "SIN OBSERVACION": str_limit($ticket->observacion,35);
                             })
                             ->editColumn('user.nickname', function($ticket){
-                                return '<strong>'. $ticket->nombreestado .'</strong><br><span class="label bg-lg bg-black">'. $ticket->user->nickname.'</span>';
+                                //return '<strong>'. $ticket->nombreestado .'</strong><br><span class="label bg-lg bg-black">'. $ticket->user->nickname.'</span>';
+                                return '<span class="label bg-lg bg-black">'.$ticket->user->nickname.'</span>';
                             })
-                            ->addColumn('btn','tickets.partials.acciones')
-                            ->rawColumns(['btn','celular_referencia','user.nickname','solicitante'])
+                            ->addColumn('btn','tickets.partials.acciones') 
+                            ->rawColumns(['btn','celular_referencia','user.nickname','solicitante'])                            
+                            ->setRowClass(function ($query) use ($tipo){//agrega estilos css segun condicion
+                                $clase = '';
+                                if($tipo=='R' || $tipo=='A'){//recepcionados
+                                    $diasDiferencia = $query->created_at->diffInDays(Carbon::now());
+                                    if($diasDiferencia <=7 ){//una semana
+                                        $clase='tkcolor1';                                    
+                                    }elseif($diasDiferencia <=12){
+                                        $clase='tkcolor2';                                    
+                                    }
+                                    else{       
+                                        $clase = 'tkcolor3';
+                                    }
+                                }elseif($tipo=='F'){
+                                    $diasDiferencia = $query->fecha_asignada->diffInDays($query->fecha_entrega);
+                                    if($diasDiferencia <=4 ){//tres dias sin contar el dia de asignacion
+                                        $clase='tkcolor1';                                    
+                                    }elseif($diasDiferencia <=6){
+                                        $clase='tkcolor2';                                    
+                                    }
+                                    else{       
+                                        $clase = 'tkcolor3';
+                                    }
+                                }
+                                return $clase;
+                            })                            
                             ->toJson();
     }
 
-    public function index($estado)
+    /**
+     * 
+     * @param Request $request
+     * @param $estado 
+     * 
+    */
+    public function index(Request $request, $estado)
     {
+        $gestion = ($request->gestion!=null)?$request->gestion:Carbon::now()->year;
         switch ($estado) {
             case 'recepcionados':
                 $tipo = 'R';
@@ -71,8 +144,11 @@ class TicketController extends Controller
             case 'finalizados':
                 $tipo = 'F';
                 break;
+            case 'resueltos':
+                $tipo = 'T';
+                break;
         }
-        return view('tickets.index',compact('estado','tipo'));
+        return view('tickets.index',compact('estado','tipo','gestion'));
     }
 
     public function create($tipo)
@@ -148,24 +224,54 @@ class TicketController extends Controller
         return redirect()->route('tickets.index','recepcionados');
     }
 
+    /**
+     * 
+    */
+    public function resolver(Ticket $ticket)
+    {        
+        $ticket->estado = 'T'; //resuelto sin asignar
+        $ticket->user_id = auth()->id();//resuelto por        
+        $ticket->save();
+        return response()->json();
+    }
+
+    /**
+     * 
+    */
+    public function deshacer(Ticket $ticket)
+    {        
+        $ticket->estado = 'R'; //Estado RECEPCIONADO
+        $ticket->save();
+        return response()->json();
+    }
+
+    /**
+     * 
+    */
     public function destroy(Ticket $ticket)
     {
-        $ticket->delete();
-        
+        $ticket->delete();        
         return response()->json();
     }
 
     public function imprimir(Ticket $ticket)
     {
         $pdf = App::make('dompdf.wrapper');
-        $pdf->setPaper('letter');
-        $pdf->loadView('tickets.imprimir.volante',compact('ticket'));
-        return $pdf->stream($ticket->id.'-'.$ticket->gestion.'.pdf');
+        $pdf->setPaper('letter');        
+        
+        $pdf->loadView('invitado.imprimir.imprimir-ticket',compact('ticket'));
+        return $pdf->stream($ticket->id.'.pdf',array("Attachment"=>false));
+
+        //$pdf->loadView('tickets.imprimir.volante',compact('ticket'));
+        //return $pdf->stream($ticket->id.'-'.$ticket->gestion.'.pdf');
     }
 
+    /**
+     * Muestra la vista de asignacion
+    */
     public function asignar(Ticket $ticket)
     {
-        if(auth()->user()->isRole('externos'))
+        if( auth()->user()->isRole('externos') ) // se autoasigna
         {
             $ticket->user_id = auth()->id();
             $ticket->prioridad = 'normal';
@@ -178,17 +284,47 @@ class TicketController extends Controller
             $ticket->save();
             return redirect()->route('tickets.index','asignados');
         }
-        else{
+        else if( auth()->user()->isRole('encargado') ){
+            $slug = slugTipoEncargado(auth()->user());
+            //todos los usuarios de un area 'slug'
+            $soporte = User::with('tecnico')
+                ->whereHas('roles',function($query) use($slug){
+                $query->where('slug',$slug);
+            })
+            ->where('id','!=', auth()->user()->id )//se exceptua al encargado
+            ->get();
+            
+            $fechasugerida = Carbon::now()->addWeekdays(3)->format('d-m-Y');            
+            return view('tickets.asignar', compact('ticket','soporte','fechasugerida'));
+        }else if( auth()->user()->isRole('admin') ){//Administrador del sistema
+            $ids = idsTecnicos();//helpers            
+            //obtiene usuarios
+            $soporte = User::WhereIn('id',$ids)->get();
+            //$tecnicos = Tecnico::orderBy('nombre','ASC')->get();
+            //tres dias a partir de la fecha de registro
+            $fechasugerida = Carbon::now()->addWeekdays(3)->format('d-m-Y');            
+            return view('tickets.asignar', compact('ticket','soporte','fechasugerida'));//'tecnicos'
+        }
+        else
+        {
             $soporte = User::whereHas('roles',function($query){
                 $query->where('slug','tecnico');
             })->get();
             $tecnicos = Tecnico::orderBy('nombre','ASC')->get();
             $fechasugerida = Carbon::now()->addWeekdays(3)->format('d-m-Y');
+            
             return view('tickets.asignar', compact('ticket','tecnicos','soporte','fechasugerida'));
         }
     }
+
+    /**
+     * Realiza la asignacion de tickets
+    */
     public function storeasignar(Request $request, Ticket $ticket){
+        
+        //informacion de usuario
         $user = User::where('tecnico_id',$request->tecnico_id)->first();
+
         $ticket->user_id = $user->id;
         $ticket->prioridad = $request->prioridad;
         $ticket->fecha_asignada = Carbon::now();
